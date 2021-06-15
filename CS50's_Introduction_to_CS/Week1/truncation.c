@@ -1,0 +1,14 @@
+//
+// Created by saksham on 16-06-2021.
+//
+
+#include <stdio.h>
+#include <cs50.h>
+
+int main(void)
+{
+    int x = get_int("x: ");
+    int y = get_int("y: ");
+    float z = (float)x / y;
+    printf("%f\n", z);
+}
