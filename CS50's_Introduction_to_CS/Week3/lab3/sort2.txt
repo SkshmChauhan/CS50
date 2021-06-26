@@ -1,0 +1,35 @@
+sort2 -> random5000.txt                 real    0m0.015s
+                                        user    0m0.008s
+                                        sys     0m0.008s
+
+sort2 -> random10000.txt                real    0m0.050s
+                                        user    0m0.004s
+                                        sys     0m0.022s
+
+sort2 -> random50000.txt                real    0m4.624s
+                                        user    0m0.033s
+                                        sys     0m0.075s
+
+sort2 -> reversed5000.txt               real    0m0.014s
+                                        user    0m0.003s
+                                        sys     0m0.010s
+
+sort2 -> reversed10000.txt              real    0m0.019s
+                                        user    0m0.007s
+                                        sys     0m0.011s
+
+sort2 -> reversed50000.txt              real    0m5.199s
+                                        user    0m0.028s
+                                        sys     0m0.079s
+
+sort2 -> sorted5000.txt                 real    0m0.029s
+                                        user    0m0.007s
+                                        sys     0m0.007s
+
+sort2 -> sorted10000.txt                real    0m0.046s
+                                        user    0m0.004s
+                                        sys     0m0.027s
+
+sort2 -> sorted50000.txt                real    0m8.625s
+                                        user    0m0.030s
+                                        sys     0m0.081s
