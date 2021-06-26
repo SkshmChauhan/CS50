@@ -1,11 +1,13 @@
-sort1 uses: TODO
+sort1 uses: Bubble Sort
 
-How do you know?: TODO
+How do you know?: Because it takes most time to sort a reverse sorted array after selection sort.
 
-sort2 uses: TODO
+sort2 uses: Merge Sort
 
-How do you know?: TODO
+How do you know?: Because it performs optimally in all cases.
 
-sort3 uses: TODO
+sort3 uses: Selection Sort
 
-How do you know?: TODO
+How do you know?: Because it takes most time for sort already sorted arrays.
+
+
