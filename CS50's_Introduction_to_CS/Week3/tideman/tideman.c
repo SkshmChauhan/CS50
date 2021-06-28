@@ -1,7 +1,3 @@
-//
-// Created by saksham on 28-06-2021.
-//
-
 #include <cs50.h>
 #include <stdio.h>
 
@@ -103,14 +99,31 @@ int main(int argc, string argv[])
 // Update ranks given a new vote
 bool vote(int rank, string name, int ranks[])
 {
-    // TODO
+    // Searching name of the candidate:
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(name, candidates[i].name) == 0)
+        {
+            // Updating value of preferences.
+            ranks[rank] = i;
+            return true;
+        }
+    }
     return false;
 }
 
 // Update preferences given one voter's ranks
 void record_preferences(int ranks[])
 {
-    // TODO
+    for (int i = 0; i < candidate_count; i++)
+    {
+        int above = ranks[i];
+        for (int j = i + 1; j < candidate_count; j++)
+        {
+            int below = ranks[j];
+            preferences[above][below]++;
+        }
+    }
     return;
 }
 
