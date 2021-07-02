@@ -1,4 +1,5 @@
 #include "helpers.h"
+#include <math.h>
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -340,8 +341,6 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
-
-
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
@@ -356,11 +355,11 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
 
     // Declaring g(y) array:
     int gy[3][3] = {
-            {-1, 0, 1}, // row 0
-            {-2, 0, 2}, // row 1
-            {-1, 0, 1}  // row 2
-     };
-    
+            {-1, -2, -1}, // row 0
+            {0, 0, 0}, // row 1
+            {1, 2, 1}  // row 2
+    };
+
     // Duplicating image color in a separate matrix:
     for (int i = 0; i < height; i++)
     {
@@ -371,11 +370,6 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             newimage[i][j][2] = image[i][j].rgbtRed;
         }
     }
-    
-    int answers[2][3] = {
-            {-1, 0, 1}, // row 0
-            {-2, 0, 2}, // row 1
-    };
 
     // Loop for iterating over image rows:
     for (int i = 0; i < height; i++)
@@ -383,10 +377,19 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
         // Loop for iterating over image columns:
         for (int j = 0; j < width; j++)
         {
+            double rootblue, rootgreen, rootred;
+            int valblue, valgreen, valred
+
+            int answers[2][3] = {
+                    // Column represent: blue, green, red:
+                    {0, 0, 0}, // row gx
+                    {0, 0, 0}, // row gy
+            };
+
             int matrix[3][3] = {
-                            {0, 0, 0}, // row 0
-                            {0, 0, 0}, // row 1
-                            {0, 0, 0}  // row 2
+                    {0, 0, 0}, // row 0
+                    {0, 0, 0}, // row 1
+                    {0, 0, 0}  // row 2
             };
 
             // Loop for iterating over three different colors:
@@ -399,47 +402,138 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 {
                     if (j == 0)
                     {
-                        matrix[1][1] = newimage[i][j][k]
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][2] = newimage[i][j + 1][k];
+                        matrix[2][1] = newimage[i + 1][j][k];
+                        matrix[2][2] = newimage[i + 1][j + 1][k];
                     }
                     else if (j == width - 1)
                     {
-    
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][0] = newimage[i][j - 1][k];
+                        matrix[2][0] = newimage[i + 1][j - 1][k];
+                        matrix[2][1] = newimage[i + 1][j][k];
                     }
                     else
                     {
-    
+                        matrix[1][0] = newimage[i][j - 1][k];
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][2] = newimage[i][j + 1][k];
+                        matrix[2][0] = newimage[i + 1][j - 1][k]
+                        matrix[2][1] = newimage[i + 1][j][k];
+                        matrix[2][2] = newimage[i + 1][j + 1][k];
                     }
                 }
-                else if(i == height - 1)
+                else if (i == height - 1)
                 {
                     if (j == 0)
                     {
-    
+                        matrix[0][1] = newimage[i - 1][j][k];
+                        matrix[0][2] = newimage[i - 1][j + 1][k];
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][2] = newimage[i][j + 1][k];
                     }
                     else if (j == width - 1)
                     {
-    
+                        matrix[0][0] = newimage[i - 1][j - 1][k];
+                        matrix[0][1] = newimage[i - 1][j][k];
+                        matrix[1][0] = newimage[i][j - 1][k];
+                        matrix[1][1] = newimage[i][j][k];
                     }
                     else
                     {
-    
+                        matrix[0][0] = newimage[i - 1][j - 1][k];
+                        matrix[0][1] = newimage[i - 1][j][k];
+                        matrix[0][2] = newimage[i - 1][j + 1][k];
+                        matrix[1][0] = newimage[i][j - 1][k];
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][2] = newimage[i][j + 1][k];
                     }
                 }
-                else{
+                else
+                {
                     if (j == 0)
                     {
-    
+                        matrix[0][1] = newimage[i - 1][j][k];
+                        matrix[0][2] = newimage[i - 1][j + 1][k];
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][2] = newimage[i][j + 1][k];
+                        matrix[2][1] = newimage[i + 1][j][k];
+                        matrix[2][2] = newimage[i + 1][j + 1][k];
                     }
                     else if (j == width - 1)
                     {
-    
+                        matrix[0][0] = newimage[i - 1][j - 1][k];
+                        matrix[0][1] = newimage[i - 1][j][k];
+                        matrix[1][0] = newimage[i][j - 1][k];
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[2][0] = newimage[i + 1][j - 1][k];
+                        matrix[2][1] = newimage[i + 1][j][k];
                     }
                     else
                     {
-    
+                        matrix[0][0] = newimage[i - 1][j - 1][k];
+                        matrix[0][1] = newimage[i - 1][j][k];
+                        matrix[0][2] = newimage[i - 1][j + 1][k];
+                        matrix[1][0] = newimage[i][j - 1][k];
+                        matrix[1][1] = newimage[i][j][k];
+                        matrix[1][2] = newimage[i][j + 1][k];
+                        matrix[2][0] = newimage[i + 1][j - 1][k];
+                        matrix[2][1] = newimage[i + 1][j][k];
+                        matrix[2][2] = newimage[i + 1][j + 1][k];
                     }
                 }
+
+                // Now we have matrix ready for k color:
+                float valgx = 0;
+                float valgy = 0;
+                for (int x = 0; x < 3; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        valgx = valgx + (matrix[i][j] * gx[i][j]);
+                        valgy = valgy + (matrix[i][j] * gy[i][j]);
+                    }
+                }
+                answers[0][k] = valgx;
+                answers[1][k] = valgy;
             }
+
+            rootblue = sqrt((answers[0][0] * answers[0][0]) + (answers[1][0] * answers[1][0]));
+            rootgreen = sqrt((answers[0][1] * answers[0][1]) + (answers[1][1] * answers[1][1]));
+            rootred = sqrt((answers[0][2] * answers[0][2]) + (answers[1][2] * answers[1][2]));
+
+            valblue = round(rootblue);
+            valgreen = round(rootgreen);
+            valred = round(rootred);
+
+            if (valblue > 255)
+            {
+                valblue = 255;
+            }else if (valblue < 0)
+            {
+                valblue = 0;
+            }
+
+            if (valgreen > 255)
+            {
+                valgreen = 255;
+            }else if (valgreen < 0)
+            {
+                valgreen = 0;
+            }
+
+            if (valred > 255)
+            {
+                valred = 255;
+            }else if (valred < 0)
+            {
+                valred = 0;
+            }
+
+            image[i][j].rgbtBlue = valblue;
+            image[i][j].rgbtGreen = valgreen;
+            image[i][j].rgbtRed = valred;
         }
     }
     return;
