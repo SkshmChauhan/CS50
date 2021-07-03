@@ -347,18 +347,20 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
     BYTE newimage[height][width][3];
 
     // Declaring g(x) array:
-    int gx[3][3] = {
-            {-1, 0, 1}, // row 0
-            {-2, 0, 2}, // row 1
-            {-1, 0, 1}  // row 2
-    };
+    int gx[3][3] =
+            {
+                    {-1, 0, 1}, // row 0
+                    {-2, 0, 2}, // row 1
+                    {-1, 0, 1}  // row 2
+            };
 
     // Declaring g(y) array:
-    int gy[3][3] = {
-            {-1, -2, -1}, // row 0
-            {0, 0, 0}, // row 1
-            {1, 2, 1}  // row 2
-    };
+    int gy[3][3] =
+            {
+                    {-1, -2, -1}, // row 0
+                    {0, 0, 0}, // row 1
+                    {1, 2, 1}  // row 2
+            };
 
     // Duplicating image color in a separate matrix:
     for (int i = 0; i < height; i++)
@@ -377,20 +379,22 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
         // Loop for iterating over image columns:
         for (int j = 0; j < width; j++)
         {
-            double rootblue, rootgreen, rootred;
-            int valblue, valgreen, valred
+            float rootblue, rootgreen, rootred;
+            int valblue, valgreen, valred;
 
-            int answers[2][3] = {
-                    // Column represent: blue, green, red:
-                    {0, 0, 0}, // row gx
-                    {0, 0, 0}, // row gy
-            };
+            int answers[2][3] =
+                    {
+                            // Column represent: blue, green, red:
+                            {0, 0, 0}, // row gx
+                            {0, 0, 0}, // row gy
+                    };
 
-            int matrix[3][3] = {
-                    {0, 0, 0}, // row 0
-                    {0, 0, 0}, // row 1
-                    {0, 0, 0}  // row 2
-            };
+            int matrix[3][3] =
+                    {
+                            {0, 0, 0}, // row 0
+                            {0, 0, 0}, // row 1
+                            {0, 0, 0}  // row 2
+                    };
 
             // Loop for iterating over three different colors:
             // k = 0: blue
@@ -419,7 +423,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                         matrix[1][0] = newimage[i][j - 1][k];
                         matrix[1][1] = newimage[i][j][k];
                         matrix[1][2] = newimage[i][j + 1][k];
-                        matrix[2][0] = newimage[i + 1][j - 1][k]
+                        matrix[2][0] = newimage[i + 1][j - 1][k];
                         matrix[2][1] = newimage[i + 1][j][k];
                         matrix[2][2] = newimage[i + 1][j + 1][k];
                     }
@@ -491,17 +495,17 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 {
                     for (int y = 0; y < 3; y++)
                     {
-                        valgx = valgx + (matrix[i][j] * gx[i][j]);
-                        valgy = valgy + (matrix[i][j] * gy[i][j]);
+                        valgx = valgx + (matrix[x][y] * gx[x][y]);
+                        valgy = valgy + (matrix[x][y] * gy[x][y]);
                     }
                 }
                 answers[0][k] = valgx;
                 answers[1][k] = valgy;
             }
 
-            rootblue = sqrt((answers[0][0] * answers[0][0]) + (answers[1][0] * answers[1][0]));
-            rootgreen = sqrt((answers[0][1] * answers[0][1]) + (answers[1][1] * answers[1][1]));
-            rootred = sqrt((answers[0][2] * answers[0][2]) + (answers[1][2] * answers[1][2]));
+            rootblue = sqrt((answers[0][0] * answers[0][0] * 1.0) + (answers[1][0] * answers[1][0]));
+            rootgreen = sqrt((answers[0][1] * answers[0][1] * 1.0) + (answers[1][1] * answers[1][1]));
+            rootred = sqrt((answers[0][2] * answers[0][2] * 1.0) + (answers[1][2] * answers[1][2]));
 
             valblue = round(rootblue);
             valgreen = round(rootgreen);
@@ -510,7 +514,8 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             if (valblue > 255)
             {
                 valblue = 255;
-            }else if (valblue < 0)
+            }
+            else if (valblue < 0)
             {
                 valblue = 0;
             }
@@ -518,7 +523,8 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             if (valgreen > 255)
             {
                 valgreen = 255;
-            }else if (valgreen < 0)
+            }
+            else if (valgreen < 0)
             {
                 valgreen = 0;
             }
@@ -526,7 +532,8 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             if (valred > 255)
             {
                 valred = 255;
-            }else if (valred < 0)
+            }
+            else if (valred < 0)
             {
                 valred = 0;
             }
@@ -538,5 +545,3 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
     }
     return;
 }
-
-
